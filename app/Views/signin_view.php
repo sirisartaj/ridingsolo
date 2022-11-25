@@ -89,24 +89,39 @@
           console.log("response " + parseJwt(response.credential));
           var token = parseJwt(response.credential);
          a = JSON.stringify(token);
-         console.log(a);
-         if(a.email){
-
-         	$('#buttonDiv').hide();
-         	$('#signinform').html('We will send the mail after admin approval.');
+         //console.log(a);
+         var obj = jQuery.parseJSON(a);
+	  console.log(obj.email);
+         
+         if(obj.email){
+		console.log('hi');
+         	
 
          	$.ajax({
 		   method: "POST",            
 		   url: "<?php echo base_url(); ?>/checkuser",
-		   data: {"email":a.email,"name":a.name,"picture":a.picture,"given_name":a.given_name,"family_name":a.family_name},
+		   data: {"email":obj.email,"name":obj.name,"picture":obj.picture,"given_name":obj.given_name,"family_name":obj.family_name},
 		   success: function(data) {        
 		        console.log(data);
 		        
 		       var resultdata = $.parseJSON(data);
 		        if(data){
-		        if(resultdata.status == 200){
+		        if(resultdata.status == 200 && resultdata.message=="Added Successfully"){
+		         $('#buttonDiv').hide();
+  			  $('#signinform').html('Thank you for joining Us.We will send the mail after admin approval.');
 		        
-		        
+		        }else if(resultdata.status == 200 && resultdata.users=="pending"){
+		        	 $('#buttonDiv').hide();
+		        	$('#signinform').html('Thank you for joining Us.We will send the mail after admin approval.');
+		        }else if(resultdata.status == 200 && resultdata.users=="Approved"){
+		        	udata = resultdata.usersdata;
+		        	console.log(udata.);
+		        	window.location.href = "<?php echo base_url().'/googleregistration/abc';?>";
+		        	
+		        	
+		        }else if(resultdata.status == 200 && resultdata.users=="Reject"){
+		        	$('#buttonDiv').hide();
+		        	$('#signinform').html('Your Request is rejected Please contact Admin');
 		        }else{
 		        	alert('not updated');
 		        }

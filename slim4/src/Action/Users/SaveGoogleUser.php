@@ -5,7 +5,7 @@ use App\Domain\Users\Users;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class CheckUser
+final class SaveGoogleUser
 {
   private $Users;
   public function __construct(Users $users)
@@ -20,13 +20,9 @@ final class CheckUser
       //$data = $request->getParsedBody();
      //$data =(array) json_decode($data);
 
-     $data = $request->getBody();
+    $data = $request->getBody();
     $data =(array) json_decode($data);
-
-    //print_r($data);exit;
-    //$data = array_merge($data, $_FILES);
-   
-    $users = $this->users->checkUser($data);
+    $users = $this->users->SaveGoogleUser($data);
     $response->getBody()->write((string)json_encode($users));
     return $response
           ->withHeader('Content-Type', 'application/json');

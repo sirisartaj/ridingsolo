@@ -44,6 +44,14 @@ class UserModel extends Model{
         return $home->CallAPI('POST',$url,$data);
        
     }
+    public function savegoogleuser($data){
+
+         $home = new home();   
+         //print_r($data);echo "in codeigniter usermodel";exit;    
+        $url = baseURL1.'/users/savegoogleuser';
+        return $home->CallAPI('POST',$url,$data);
+       
+    }
 
     public function checkuser($data){
 

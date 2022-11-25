@@ -40,7 +40,14 @@ final class Users
   }
   public function checkUser($data) :array 
   {
+
     $User = $this->repository->checkUser($data);
+    return $User;
+  }
+  public function savegoogleUser($data) :array 
+  {
+    
+    $User = $this->repository->savegoogleUser($data);
     return $User;
   }
   public function addUser($data) : array 

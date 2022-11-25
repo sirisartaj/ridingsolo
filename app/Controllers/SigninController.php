@@ -11,15 +11,18 @@ class SigninController extends Controller
         //exit;
         helper(['form']);
        // echo view('signin_view');
-        if($_GET['from_mail']){
-            echo view('signup_Appoveuser_Form');exit;
-        }else{
-            echo view('signin_view');
-        }
+        
+        echo view('signin_view');
+        
         
        // echo view('sign1');
     } 
     
+    public function googleUserRegistration(){
+        $data = $this->request->getVar();
+        echo view('signup_Appoveuser_Form',$data);
+    }
+
     public function storelogin(){
         print_r($this->request->getVar());exit;
 
@@ -69,7 +72,13 @@ class SigninController extends Controller
         $data['given_name'] = $this->request->getVar('given_name');
         $data['family_name'] = $this->request->getVar('family_name');
         $result = $userModel->checkuser($data);
-
+        if($result->status==200){
+            echo json_encode($result);exit;
+        }else{
+            $result = $userModel->savegoogleuser($data);
+            echo json_encode($result);exit;
+        }
+        
         //return redirect()->to('/adduser');
     }
     public function logincheck(){

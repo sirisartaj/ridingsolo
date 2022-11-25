@@ -26,20 +26,23 @@ class UsersRepository
    */
 
 public function checkUser($data):array{
-
+//print_r($data);exit;
   try {
     extract($data);
     $sql = "SELECT * FROM  sg_users where user_email ='".$email."'";
       $stmt = $this->connection->prepare($sql);  
       $stmt->execute();
       $users = $stmt->fetch(PDO::FETCH_OBJ);
-      print_r($users);exit;
-      $ustatus = ($users->ustatus==2)?"pending":($users->ustatus==0?"Approved":"Reject");
+      //print_r($users);exit;
+     
       if(!empty($users)){
+       $ustatus = ($users->ustatus==2)?"pending":($users->ustatus==0?"Approved":"Reject");
        $status = array(
          'status' =>ERR_OK,
          'message' =>"Success",
-         'users' => $ustatus);
+         'users' => $ustatus,
+         "usersdata"=>$users
+       );
          return $status;
       }else{
         $status = array('status'=>ERR_NO_DATA,
@@ -179,6 +182,46 @@ public function checkUser($data):array{
       return $status;
     } 
   }
+  public function savegoogleUser($data) {
+    try {      
+      extract($data);
+      $sql = "INSERT INTO ".DBPREFIX."_users SET user_fname=:user_fname, user_lname=:user_lname ,user_email=:user_email,user_avatar = :user_avatar,user_create=:user_create,user_status = :user_status , created_by = :created_by,ustatus=:ustatus";
+      $stmt = $this->connection->prepare($sql);  
+      $created_date = date("Y-m-d H:i:s");
+      $user_status = "0";
+      $ustatus = "2";
+      $user_id ="0";
+
+      $stmt->bindParam(":user_fname", $given_name); 
+      $stmt->bindParam(":user_lname", $family_name); 
+      $stmt->bindParam(":user_avatar", $picture);
+      $stmt->bindParam(":user_email", $email);
+      $stmt->bindParam(":user_status", $user_status);
+      $stmt->bindParam(":ustatus", $ustatus);
+      $stmt->bindParam(':user_create',$created_date);
+      $stmt->bindParam(':created_by',$user_id);
+      $res = $stmt->execute();
+      $user_id = $this->connection->lastInsertId();
+      if($user_id != ''  && $user_id != '0'){
+        $status = array(
+          "status" => ERR_OK,
+          "message" => "Added Successfully");
+        return $status;
+      }else{
+        //print_r($res);
+        $status = array(
+          "status" => ERR_NOT_MODIFIED,
+          "message" => "Not Added Successfully");
+        return $status;
+      }
+    } catch(PDOException $e) {
+      $status = array(
+              'status' => "500",
+              'message' => $e->getMessage()
+          );
+      return $status;
+    } 
+  }
   public function updateUser($data) 
   {
     try {
@@ -203,18 +246,7 @@ public function checkUser($data):array{
       $stmt->bindParam(":modified_by", $modified_by);
       //print_r($sql);exit;
       $res = $stmt->execute();
-     /* echo " ---------user_id : ".$user_id;
-      echo ",user_fname : ".$user_fname;
-      echo ",user_lname : ".$user_lname;
-      echo ",user_gender : ".$user_gender;
-      echo ",user_mobile : ".$user_mobile;
-      echo ",user_email : ".$user_email;
-      echo ",user_dob : ".$user_dob;
-      echo ",user_level : ".$user_level;
-      echo ",user_status : ".$user_status;
-      echo ",modified_date : ".$modified_date;
-      echo ",modified_by : ".$modified_by;*/
-      //print_r($this->connection->mysql_error());exit;
+    
       if($res){
         //print_r($res);exit;
         $status = array(
