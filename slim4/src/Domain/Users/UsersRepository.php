@@ -24,6 +24,41 @@ class UsersRepository
    *
    * @return array 
    */
+
+public function checkUser($data):array{
+
+  try {
+    extract($data);
+    $sql = "SELECT * FROM  sg_users where user_email ='".$email."'";
+      $stmt = $this->connection->prepare($sql);  
+      $stmt->execute();
+      $users = $stmt->fetch(PDO::FETCH_OBJ);
+      print_r($users);exit;
+      $ustatus = ($users->ustatus==2)?"pending":($users->ustatus==0?"Approved":"Reject");
+      if(!empty($users)){
+       $status = array(
+         'status' =>ERR_OK,
+         'message' =>"Success",
+         'users' => $ustatus);
+         return $status;
+      }else{
+        $status = array('status'=>ERR_NO_DATA,
+                         'message'=>"No Data Found",
+                         'users'=>""
+                       );
+         return $status;
+      }
+
+    } catch(PDOException $e) {
+      $status = array(
+              'status' => "500",
+              'message' => $e->getMessage()
+          );
+      return $status;
+    }
+
+}
+
   public function getUsers(): array
   {      
     try {

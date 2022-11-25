@@ -44,6 +44,15 @@ class UserModel extends Model{
         return $home->CallAPI('POST',$url,$data);
        
     }
+
+    public function checkuser($data){
+
+         $home = new home();   
+         //print_r($data);echo "in codeigniter usermodel";exit;    
+        $url = baseURL1.'/users/checkuser';
+        return $home->CallAPI('POST',$url,$data);
+       
+    }
     public function changepwd($data){
 
          $home = new home();   

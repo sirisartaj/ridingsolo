@@ -7,10 +7,26 @@ class SigninController extends Controller
 {
     public function index()
     {
+        //print_r($this->request->getVar());
+        //exit;
         helper(['form']);
-        echo view('signin_view');
+       // echo view('signin_view');
+        if($_GET['from_mail']){
+            echo view('signup_Appoveuser_Form');exit;
+        }else{
+            echo view('signin_view');
+        }
+        
+       // echo view('sign1');
     } 
-  
+    
+    public function storelogin(){
+        print_r($this->request->getVar());exit;
+
+        echo view('signin_view');
+    }
+
+
     public function loginAuth()
     {
         $session = session();
@@ -44,6 +60,18 @@ class SigninController extends Controller
         }
     }
 
+    public function checkuser(){
+        $userModel = new UserModel();
+
+        $data['email'] = $this->request->getVar('email');
+        $data['name'] = $this->request->getVar('name');
+        $data['picture'] = $this->request->getVar('picture');
+        $data['given_name'] = $this->request->getVar('given_name');
+        $data['family_name'] = $this->request->getVar('family_name');
+        $result = $userModel->checkuser($data);
+
+        //return redirect()->to('/adduser');
+    }
     public function logincheck(){
         return redirect()->to('/adduser');
     }

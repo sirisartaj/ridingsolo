@@ -24,6 +24,7 @@ return function (App $app) {
   $app->post('/users/checklogin',\App\Action\CheckLogin::class);
 	//$app->post('/users/adduser',\App\Action\AddUser::class);
   $app->post('/users/adduser', \App\Action\Users\AddUser::class);
+  $app->post('/users/checkuser', \App\Action\Users\CheckUser::class);
 	$app->get('/users/getuser/{userId}', \App\Action\Users\GetUser::class);
 	$app->get('/users/getusers',\App\Action\Users\GetUsers::class);
 	$app->post('/users/updateuser',\App\Action\Users\UpdateUser::class);

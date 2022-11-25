@@ -38,6 +38,11 @@ final class Users
     $User = $this->repository->deleteUser($data);
     return $User;
   }
+  public function checkUser($data) :array 
+  {
+    $User = $this->repository->checkUser($data);
+    return $User;
+  }
   public function addUser($data) : array 
   {
     try {

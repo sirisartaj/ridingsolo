@@ -47,7 +47,9 @@ $routes->get('/home', 'Home::index');
 $routes->get('/signup', 'SignupController::index');
 $routes->match(['get', 'post'], 'SignupController/store', 'SignupController::store');
 $routes->match(['get', 'post'], 'SigninController/loginAuth', 'SigninController::loginAuth');
+$routes->post('storecode', 'SigninController::storelogin');
 $routes->get('/signin', 'SigninController::index');
+$routes->get('/signin/(:any)', 'SigninController::index/$1');
 $routes->get('/profile', 'ProfileController::index',['filter' => 'authGuard']);
 $routes->get('logout', 'SigninController::logout');
 $routes->get('feedbackform/(:any)', 'feedbackController::userfeedbackform/$1');
@@ -56,6 +58,7 @@ $routes->post('submitquestion', 'feedbackController::qstore');
 $routes->get('showfeedbackform/(:any)', 'feedbackController::showquestionstofeedbackform/$1');
 $routes->post('savefeedback', 'feedbackController::saveuserfeedback');
 $routes->post('feebackreport', 'feedbackController::feebackreport');
+
 
 
 
@@ -84,6 +87,7 @@ $routes->post('/rolepriviliesstore', 'RoleController::rolepriviliesstore');
 //AdminController
 $routes->get('/userapprovals', 'AdminController::index');
 $routes->post('/Approverejectuser', 'AdminController::Approverejectuser');
+$routes->post('/checkuser', 'SigninController::checkuser');
 /*24 nov 2022*/
 
 
