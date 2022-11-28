@@ -20,7 +20,8 @@ class AdminController extends BaseController
        $data = $this->request->getVar();
        $data['modified_date'] = date('Y-m-d H:i:s');
        $result =  $adminModel->Approverejectuser($data);
-        echo json_encode($result);
+      // print_r($result['success']);exit;
+        echo json_encode($result);exit;
         if($result)
         {
             //$this->request->getVar('email')
@@ -28,4 +29,7 @@ class AdminController extends BaseController
         }
         //return view('Admin/userapprovals',$data);
     }
+
+
+
 }

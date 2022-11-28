@@ -34,7 +34,7 @@ public function checkUser($data):array{
       $stmt->execute();
       $users = $stmt->fetch(PDO::FETCH_OBJ);
       //print_r($users);exit;
-     
+     $_SESSION['user'] = $users;
       if(!empty($users)){
        $ustatus = ($users->ustatus==2)?"pending":($users->ustatus==0?"Approved":"Reject");
        $status = array(
@@ -229,7 +229,7 @@ public function checkUser($data):array{
       extract($data);
 
       
-      $sql  = "UPDATE ".DBPREFIX."_users SET user_fname=:user_fname, user_lname=:user_lname, user_gender=:user_gender, user_mobile=:user_mobile,user_email=:user_email,user_level=:user_level,user_dob=:user_dob, user_status = :user_status ,modified_date = :modified_date, modified_by = :modified_by WHERE user_id = :user_id";   
+      $sql  = "UPDATE ".DBPREFIX."_users SET user_fname=:user_fname, user_lname=:user_lname, user_gender=:user_gender, user_mobile=:user_mobile,user_email=:user_email,user_level=:user_level,user_dob=:user_dob, user_status = :user_status ,modified_date = :modified_date, modified_by = :modified_by,complete_rigistration=1 WHERE user_id = :user_id";   
       $stmt = $this->connection->prepare($sql);
       $modified_date = date("Y-m-d H:i:s");  
       $modified_by = "1";  

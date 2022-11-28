@@ -22,29 +22,34 @@ class AdminModel extends Model{
          //print_r($data);echo "in codeigniter usermodel";exit;    
         $url = baseURL1.'/admin/Approverejectuser';
         $result = $home->CallAPI('POST',$url,$data);
-        print_r($result);exit;
+        //print_r($result);exit;
         if($result->status==200 && $data['ustatus']==1){
-            $aa = $this->ela_mail();
+           $email = $data['email'].';';
+            $result['email'] = $this->ela_mail($email);
+            //print_r($aa);exit;
         }else{
 
         }
-        
+       // print_r($result);exit;
+        return $result;
 
     } 
 
-    public function ela_mail(){
-        
+    public function ela_mail($data){
+        /*// 'apikey' => '0A47D0670E603483C974F5B250D2BF23E541D697A392F14B3654BF8C7291FC20B791A7895B4FED91CA59BC4B017BE379',
+               // 'apikey' => 'EA69380D19666AE85071691358E219A4351E420C58ACEA072D84399231258C8DA8E2B6C5DA0161FD4FD56B59752537A7',*/
         $url = 'https://api.elasticemail.com/v2/email/send';
-
+        //print_r($data);exit;
         try{
-                $post = array('from' => 'sartaj.s@siriinnovations.com',
-                'fromName' => 'RidingSolo',
-                'apikey' => '0A47D0670E603483C974F5B250D2BF23E541D697A392F14B3654BF8C7291FC20B791A7895B4FED91CA59BC4B017BE379',
-                'subject' => 'Approved Signup',
-                'to' => 'sartaj.s@siriinnovations.com;',
-                'bodyHtml' => '<img src=""/><h1>Please fill the form</h1><div><a href="http://RidingSolo/public/signin?from_mail=1"></a></div>',
-                'bodyText' => 'Please fill the form',
-                'isTransactional' => false);
+            $post = array('from' => 'sartajbsk@gmail.com',
+            'fromName' => 'RidingSolo',               
+            'apikey' => 'B30766D2591DAD8B8EEC80471CEB9068B26389CDF47FADA6336A4C063E976D5CC675B94F918C301EE45A77FBCF3DBAE4',
+            'subject' => 'Approved Signup',
+            //'to' => 'rakesh.m@siriinnovations.com;sartaj.s@siriinnovations.com;',
+            'to' =>'sartaj.s@siriinnovations.com;rakesh.m@siriinnovations.com;',
+            //'bodyText' => 'Please fill the form',
+            'bodyHtml' =>'<img src="http://vyz.bz/ridingsolo_admin/assets/images/brand/logo-2.png"/>Hi User,<br/><h1>Admin approved your mail please go to the below link to rigistration </h1><div><a href="http://localhost/ridingSolo/public/signin">Sign In</a></div>',
+            'isTransactional' => false);
                 
                 $ch = curl_init();
                 curl_setopt_array($ch, array(

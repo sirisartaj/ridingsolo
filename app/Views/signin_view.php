@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -115,8 +114,19 @@
 		        	$('#signinform').html('Thank you for joining Us.We will send the mail after admin approval.');
 		        }else if(resultdata.status == 200 && resultdata.users=="Approved"){
 		        	udata = resultdata.usersdata;
-		        	console.log(udata.);
-		        	window.location.href = "<?php echo base_url().'/googleregistration/abc';?>";
+		        	email = udata.user_email;
+		        	userid = udata.user_id;
+		        	upassword = udata.user_password;
+		        	uname = udata.user_fname;
+		        	complete_rigistration = udata.complete_rigistration;
+		        	
+		        	console.log(email);
+		        	//if(resultdata.status_regi == 'completed'){
+		        		/*window.location.href = "<?php //echo base_url().'/SigninController/loginAuth?email=';?>+"data;*/
+		        	//}else{
+window.location.href = "<?php echo base_url().'/googleregistration/?email=';?>"+email+"&userid="+userid+"&upassword="+upassword+"&uname="+uname+"&complete_rigistration="+complete_rigistration;	
+		        	//}
+		        	
 		        	
 		        	
 		        }else if(resultdata.status == 200 && resultdata.users=="Reject"){

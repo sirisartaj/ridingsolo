@@ -67,19 +67,22 @@ foreach($result as $r){ //print_r($r);?>
 			<td><?php echo $r->user_create;?></td>
 			<td><?php echo 'Google';?></td>
 			
-			<td><?php echo $r->ustatus==1?'Approve':($r->utatus==NULL?'Pending':'Reject');?></td>
+			<td><?php echo ($r->ustatus==0)?'Approve':(($r->ustatus==2)?'Pending':'Reject');?></td>
 			<td id="action">
 				<div id="ustatus_<?php echo $r->user_id;?>">
-					<?php if($r->ustatus==Null){ ?>
-					<div class="btn btn-sm btn-primary" onclick="Approverejectuser('1','<?php echo $r->user_id;?>');">Approve
+					<?php if($r->ustatus==2){ ?>
+					<div class="btn btn-sm btn-primary" onclick="Approverejectuser('0','<?php echo $r->user_id;?>','<?php echo $r->user_fname;?>','<?php echo $r->user_email;?>');">Approve
 					</div>
-					<div class="btn btn-sm btn-danger" onclick="Approverejectuser('0','<?php echo $r->user_id;?>');">Reject
+					<div class="btn btn-sm btn-danger" onclick="Approverejectuser('1','<?php echo $r->user_id;?>','<?php echo $r->user_fname;?>','<?php echo $r->user_email;?>');">Reject
 					</div>
 				<?php }else if($r->ustatus==1){ ?>
-					<div class="btn btn-sm btn-danger" onclick="Approverejectuser('0','<?php echo $r->user_id;?>');">Reject
+					<div class="btn btn-sm btn-primary" onclick="Approverejectuser('1','<?php echo $r->user_id;?>','<?php echo $r->user_fname;?>','<?php echo $r->user_email;?>');">Approve
 					</div>
+
+					
+					
 				<?php }else{ ?>
-					<div class="btn btn-sm btn-primary" onclick="Approverejectuser('1','<?php echo $r->user_id;?>');">Approve
+					<div class="btn btn-sm btn-danger" onclick="Approverejectuser('0','<?php echo $r->user_id;?>','<?php echo $r->user_fname;?>','<?php echo $r->user_email;?>');">Reject
 					</div>
 				 <?php } ?>
 				</div>
@@ -94,7 +97,7 @@ foreach($result as $r){ //print_r($r);?>
 
 </div></div></div>
 <script type="text/javascript">
-	function Approverejectuser(ustatus,uid){
+	function Approverejectuser(ustatus,uid,ufname,uemail){
 		
 		ustatustext = ustatus==0?'Approve':'Reject';
 		ustatuscls = ustatus==0?'btn-primary':'btn-danger';
@@ -102,14 +105,13 @@ foreach($result as $r){ //print_r($r);?>
 		$.ajax({
 		   method: "POST",            
 		   url: "<?php echo base_url(); ?>/Approverejectuser",
-		   data: {"user_id":uid,"ustatus":ustatus,"modified_by":"1"},
+		   data: {"user_id":uid,"ustatus":ustatus,"modified_by":"1","email":uemail,"uname":ufname},
 		   success: function(data) {        
 		        console.log(data);
-		        
-		       var resultdata = $.parseJSON(data);
-		        if(data){
-		        if(resultdata.status == 200){
-		        
+	         if(data){
+		     	var resultdata = $.parseJSON(data);
+		        if(resultdata.status == 200 || resultdata.success){
+		        	console.log('here');
 		        $('#ustatus_'+uid).html('<div class="btn btn-sm '+ustatuscls+'" onclick="Approverejectuser('+numustatus+','+uid+');">'+ustatustext+'</div>');
 		        $('#alert_message').html(resultdata.message);
 		        }else{

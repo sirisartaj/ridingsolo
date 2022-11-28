@@ -66,6 +66,7 @@ $routes->get('/getuser/(:any)', 'ProfileController::getuser/$1');//for edit user
 $routes->get('/changepassword/(:any)', 'ProfileController::changepassword/$1');
 $routes->get('/getusers', 'ProfileController::getusers');
 $routes->post('storeuser', 'ProfileController::storeuser');
+$routes->post('storeregiuser', 'ProfileController::storeregiuser');
 $routes->post('changepwd', 'ProfileController::changepwd');
 $routes->post('edituserstore', 'ProfileController::edituserstore');
 
@@ -88,6 +89,7 @@ $routes->get('/userapprovals', 'AdminController::index');
 $routes->post('/Approverejectuser', 'AdminController::Approverejectuser');
 $routes->post('/checkuser', 'SigninController::checkuser');
 $routes->get('/googleregistration', 'SigninController::googleUserRegistration');
+$routes->get('/dashboard', 'UserController::dashboard');
 /*24 nov 2022*/
 
 

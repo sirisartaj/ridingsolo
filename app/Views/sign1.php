@@ -1,4 +1,4 @@
-<html itemscope itemtype="http://schema.org/Article">
+<html itemscope itemtype="http://practically.com">
 <head>
 	<meta name="google-signin-client_id" content="848882668570-n8u041rjgmam2p242qqroposiensv3pp.apps.googleusercontent.com">
   <!-- BEGIN Pre-requisites -->
@@ -9,13 +9,15 @@
   </script>
   <!-- END Pre-requisites -->
 
-  
+
   <!-- Continuing the <head> section -->
   <script>
+  	var auth2;
     function start() {
       gapi.load('auth2', function() {
-        auth2 = gapi.auth2.init({
+       auth2 = gapi.auth2.init({
           client_id: '848882668570-n8u041rjgmam2p242qqroposiensv3pp.apps.googleusercontent.com',
+         // Content-Security-Policy-Report-Only: script-src https://accounts.google.com/gsi/client; frame-src https://accounts.google.com/gsi/; connect-src https://accounts.google.com/gsi/;
           // Scopes to request in addition to 'profile' and 'email'
           //scope: 'additional_scope'
         });
