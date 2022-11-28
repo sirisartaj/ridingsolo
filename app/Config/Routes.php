@@ -87,7 +87,7 @@ $routes->post('/rolepriviliesstore', 'RoleController::rolepriviliesstore');
 $routes->get('/userapprovals', 'AdminController::index');
 $routes->post('/Approverejectuser', 'AdminController::Approverejectuser');
 $routes->post('/checkuser', 'SigninController::checkuser');
-$routes->get('/googleregistration/(:any)', 'SigninController::googleUserRegistration/$1');
+$routes->get('/googleregistration', 'SigninController::googleUserRegistration');
 /*24 nov 2022*/
 
 
