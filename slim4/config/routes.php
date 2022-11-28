@@ -26,6 +26,7 @@ return function (App $app) {
   $app->post('/users/adduser', \App\Action\Users\AddUser::class);
   $app->post('/users/checkuser', \App\Action\Users\CheckUser::class);
 	$app->get('/users/getuser/{userId}', \App\Action\Users\GetUser::class);
+  $app->post('/users/getuserwithpwd', \App\Action\Users\GetUserwithEmailPwd::class);
 	$app->get('/users/getusers',\App\Action\Users\GetUsers::class);
 	$app->post('/users/updateuser',\App\Action\Users\UpdateUser::class);
 	$app->post('/users/updateuserpassword',\App\Action\Users\UpdateUserPassword::class);

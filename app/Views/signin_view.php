@@ -47,7 +47,7 @@
 					</a>
 				</div>
 
-		<form class="login100-form validate-form" id="signinform">
+		<form class="login100-form validate-form" id="signinform" action="<?php echo base_url().'/SigninController/loginAuth';?>" method="post">
 			
 			<div class="wrap-input100 validate-input">
 				<input class="input100" type="text" name="user_email" placeholder="user_email">
@@ -73,9 +73,10 @@
 			</div>
 			
 			<div class="container-login100-form-btn">
-				<a href="<?php echo base_url(); ?>/logincheck" class="login100-form-btn btn-primary">
+				<!-- <a href="<?php echo base_url(); ?>/logincheck" class="login100-form-btn btn-primary">
 					Login
-				</a>
+				</a> -->
+				<button type="submit" class="login100-form-btn btn-primary">Login</button>
 			</div>
 			
 		</form>

@@ -85,6 +85,14 @@ class UserModel extends Model{
         return $home->CallAPI('GET',$url,$data);
        
     }
+    public function getuserwithpwd($email,$pwd){
+        //print_r($email);print_r($pwd);exit;
+        $home = new home();  
+        $data = array('email'=>$email,'pwd'=>$pwd);     
+        $url = baseURL1.'/users/getuserwithpwd';
+        return $home->CallAPI('POST',$url,$data);
+       
+    }
 
     public function signinuser($data){
 

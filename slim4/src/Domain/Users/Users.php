@@ -123,4 +123,9 @@ final class Users
     $User = $this->repository->updateUserPassword($data);
     return $User;
   }
+  public function getUserwithemailpwd($data) {
+    //print_r($data);exit;
+    $User = $this->repository->getUserwithemailpwd($data);
+    return $User;
+  }
 }

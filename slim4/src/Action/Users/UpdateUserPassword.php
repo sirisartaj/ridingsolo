@@ -23,7 +23,7 @@ final class UpdateUserPassword
      $data = $request->getBody();
     $data =(array) json_decode($data);
 
-    //print_r($data);exit;
+   // print_r($data);exit;
     //$data = array_merge($data, $_FILES);
    // print_r($data);exit;
     $users = $this->users->updateUserPassword($data);

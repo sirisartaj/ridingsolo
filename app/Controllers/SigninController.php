@@ -58,24 +58,18 @@ class SigninController extends Controller
     {
         $session = session();
         $userModel = new UserModel();
-        $email = $this->request->getVar('email');
-        $password = $this->request->getVar('password');
-        
-        $data = $userModel->where('user_email', $email)->first();
-        
+        $email = $this->request->getVar('user_email');
+        $password = $this->request->getVar('user_password');
+        //print_r($this->request->getVar());//exit;
+        $data['user'] = (array) $userModel->getuserwithpwd($email,$password)->user;
+       // print_r($data);exit;
         if($data){
-            $pass = $data['password'];
-            $authenticatePassword = password_verify($password, $pass);
-            if($authenticatePassword){
-                $ses_data['user'] = [
-                    'id' => $data['id'],
-                    'name' => $data['name'],
-                    'email' => $data['email'],
-                    'role' => $data['role'],
-                    'isLoggedIn' => TRUE
-                ];
-                $session->set($ses_data);
-                return redirect()->to('/profile');
+            $pass = $data['user']['user_password'];
+           
+            if(md5($password)==$pass){
+               
+                $session->set($data);
+                return redirect()->to('/dashboard');
             
             }else{
                 $session->setFlashdata('msg', 'Password is incorrect.');
@@ -106,6 +100,7 @@ class SigninController extends Controller
         //return redirect()->to('/adduser');
     }
     public function logincheck(){
+
         return redirect()->to('/adduser');
     }
      public function logout()    

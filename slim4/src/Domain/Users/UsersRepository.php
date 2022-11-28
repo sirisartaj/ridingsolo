@@ -115,6 +115,35 @@ public function checkUser($data):array{
       return $status;
     }
   }
+  public function getUserwithemailpwd($data) {
+    try {
+      extract($data);
+      $pwd = md5($pwd);
+      $sql = "SELECT * FROM ".DBPREFIX."_users WHERE user_email=:email and user_password =:pwd and user_status=0";
+      $stmt = $this->connection->prepare($sql);  
+      $stmt->bindParam(":email", $email, PDO::PARAM_STR); 
+      $stmt->bindParam(":pwd", $pwd, PDO::PARAM_STR); 
+      $stmt->execute();
+      $userdetails = $stmt->fetch(PDO::FETCH_OBJ);
+      if(!empty($userdetails)){
+        $status = array(
+                  'status' => ERR_OK,
+                  'message' => "Success",
+                  'user' => $userdetails);
+        return $status;
+      }else{
+        $status = array('status'=>ERR_NO_DATA,
+         'message'=>"No Data Found");
+        return $status;
+      }
+    } catch(PDOException $e) {
+      $status = array(
+              'status' => "500",
+              'message' => $e->getMessage()
+          );
+      return $status;
+    }
+  }
   public function deleteuser($data) {    
     try {
       $sql = "DELETE FROM ".DBPREFIX."users WHERE user_id = :user_id";
@@ -270,9 +299,9 @@ public function checkUser($data):array{
   public function updateUserStatus($data) {    
     try {
       extract($data);
-      $sql = "UPDATE sg_Userdetails SET status=:status, modified_by=:modified_by WHERE User_id = :User_id";
+      $sql = "UPDATE sg_users SET status=:status, modified_by=:modified_by WHERE user_id = :user_id";
       $stmt = $this->connection->prepare($sql);  
-      $stmt->bindParam(":User_id",$UserId);
+      $stmt->bindParam(":user_id",$UserId);
       $stmt->bindParam(":status", $status);
       $stmt->bindParam(":modified_by",$userBy);
       $res = $stmt->execute();
@@ -298,6 +327,7 @@ public function checkUser($data):array{
 
   public function updateUserPassword($data) {    
     try {
+      //print_r($data);exit;
       extract($data);
       $sql = "UPDATE sg_users SET user_password=:user_password,temp_password = :temp_password, modified_by=:modified_by WHERE user_id = :user_id";
       $stmt = $this->connection->prepare($sql);  
@@ -307,6 +337,7 @@ public function checkUser($data):array{
       $stmt->bindParam(":temp_password", $temp_password);
       $stmt->bindParam(":modified_by",$userBy);
       $res = $stmt->execute();
+      //print_r($res);
       if($res == 'true'){
         $status = array(
           "status" => ERR_OK,

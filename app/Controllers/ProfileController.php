@@ -206,8 +206,10 @@ class ProfileController extends Controller
         if($this->validate($rules)){ 
             $userModel = new UserModel();
             $data = [                
-                'user_password' => password_hash($this->request->getVar('user_password'), PASSWORD_DEFAULT),               
-                'temp_password' => $this->request->getVar('user_password'),               
+                'user_password' => md5($this->request->getVar('user_password')),               
+                'temp_password' => $this->request->getVar('user_password'), 
+                'user_id' => $this->request->getVar('user_id'), 
+
             ];
            
             $a = $userModel->changepwd($data);
