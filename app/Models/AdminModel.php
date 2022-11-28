@@ -23,10 +23,11 @@ class AdminModel extends Model{
         $url = baseURL1.'/admin/Approverejectuser';
         $result = $home->CallAPI('POST',$url,$data);
         //print_r($result);exit;
-        if($result->status==200 && $data['ustatus']==1){
-           $email = $data['email'].';';
-            $result['email'] = $this->ela_mail($email);
-            //print_r($aa);exit;
+        if($result->status==200 && $data['ustatus']==0){
+           $data['message'] = 'Admin approved your mail please go to the below link to rigistration ';
+           $data['subject'] = 'Approved Signup';
+            $this->ela_mail($data);
+            
         }else{
 
         }
@@ -36,21 +37,24 @@ class AdminModel extends Model{
     } 
 
     public function ela_mail($data){
-        /*// 'apikey' => '0A47D0670E603483C974F5B250D2BF23E541D697A392F14B3654BF8C7291FC20B791A7895B4FED91CA59BC4B017BE379',
-               // 'apikey' => 'EA69380D19666AE85071691358E219A4351E420C58ACEA072D84399231258C8DA8E2B6C5DA0161FD4FD56B59752537A7',*/
+       // print_r($data);exit;
+        $email =$data['email'];
+        $name =$data['uname'];
+        $message =$data['message'];
+        $subject =$data['subject'];
+        
         $url = 'https://api.elasticemail.com/v2/email/send';
         //print_r($data);exit;
         try{
             $post = array('from' => 'sartajbsk@gmail.com',
             'fromName' => 'RidingSolo',               
             'apikey' => 'B30766D2591DAD8B8EEC80471CEB9068B26389CDF47FADA6336A4C063E976D5CC675B94F918C301EE45A77FBCF3DBAE4',
-            'subject' => 'Approved Signup',
-            //'to' => 'rakesh.m@siriinnovations.com;sartaj.s@siriinnovations.com;',
-            'to' =>'sartaj.s@siriinnovations.com;rakesh.m@siriinnovations.com;',
-            //'bodyText' => 'Please fill the form',
-            'bodyHtml' =>'<img src="http://vyz.bz/ridingsolo_admin/assets/images/brand/logo-2.png"/>Hi User,<br/><h1>Admin approved your mail please go to the below link to rigistration </h1><div><a href="http://localhost/ridingSolo/public/signin">Sign In</a></div>',
+            'subject' => $subject,
+            
+            'to' =>$data['email'],
+            'bodyHtml' =>'<img src="http://vyz.bz/ridingsolo_admin/assets/images/brand/logo-2.png"/>Hi '.$name.',<br/><h1> '.$message.' </h1><div><a href="http://vyz.bz/ridingsolo_admin/">Sign In</a></div>',
             'isTransactional' => false);
-                
+               
                 $ch = curl_init();
                 curl_setopt_array($ch, array(
                     CURLOPT_URL => $url,

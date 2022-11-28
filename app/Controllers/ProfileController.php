@@ -2,6 +2,7 @@
 namespace App\Controllers;  
 use CodeIgniter\Controller;
 use App\Models\UserModel;
+use App\Models\AdminModel;
   
 class ProfileController extends Controller
 {
@@ -103,6 +104,13 @@ class ProfileController extends Controller
             ];
 
             $a = $userModel->edituser($data);
+           $maildata['email']=$data['user_email'];
+           $maildata['uname']=$data['user_fname'].' '.$data['user_lname'];
+           $maildata['subject']='Registration completed';
+           $maildata['message']='<div>Your reigistration is completed with ridingsolo.</div>';
+
+           $AdminModel = new AdminModel();
+            $AdminModel->ela_mail($maildata);
             //print_r($a);//exit;
             $datac = $userModel->getuser($data['user_id']);
             //print_r($datac);exit;
