@@ -126,11 +126,11 @@
 											<div class="dropdown d-md-flex profile-1">
 												<a href="https://vyz.bz/ridingsolo_admin/#" data-bs-toggle="dropdown" class="nav-link pe-2 leading-none d-flex animate">
 													<span>
-														<img src="https://vyz.bz/ridingsolo_admin/assets/images/faces/6.jpg" alt="profile-user"
+														<img src="<?php echo $_SESSION['user']['user_avatar'];?>" alt="profile-user"
 															class="avatar  profile-user brround cover-image">
 													</span>
 													<div class="text-center p-1 d-flex d-lg-none-max">
-														<h6 class="mb-0 ms-1" id="profile-heading"><?php //echo $session->get('name');?>
+														<h6 class="mb-0 ms-1" id="profile-heading"><?php echo $_SESSION['user']['user_fname'];?>
 														<i class="user-angle ms-1 fa fa-angle-down "></i></h6>
 													</div>
 												</a>
