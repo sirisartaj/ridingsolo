@@ -42,6 +42,8 @@ class AdminModel extends Model{
         $name =$data['uname'];
         $message =$data['message'];
         $subject =$data['subject'];
+        $link ='http://vyz.bz/ridingsolo_admin/';
+        $link_text = 'Sign In';
         
         $url = 'https://api.elasticemail.com/v2/email/send';
         //print_r($data);exit;
@@ -52,7 +54,7 @@ class AdminModel extends Model{
             'subject' => $subject,
             
             'to' =>$data['email'],
-            'bodyHtml' =>'<img src="http://vyz.bz/ridingsolo_admin/assets/images/brand/logo-2.png"/>Hi '.$name.',<br/><h1> '.$message.' </h1><div><a href="http://vyz.bz/ridingsolo_admin/">Sign In</a></div>',
+            'bodyHtml' =>'<img src="http://vyz.bz/ridingsolo_admin/assets/images/brand/logo-2.png"/>Hi '.$name.',<br/><h1> '.$message.' </h1><div><a href="'.$link.'">'.$link_text.'</a></div>',
             'isTransactional' => false);
                
                 $ch = curl_init();
